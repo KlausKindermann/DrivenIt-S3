@@ -10,7 +10,10 @@ async function listHotels(userId: number) {
         throw notFoundError();
     }
     const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
-    if (!ticket || ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
+    if (!ticket){
+        throw notFoundError();
+    }
+    if (ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
         throw cannotListHotelsError();
     }
 } async function getHotels(userId: number) {
