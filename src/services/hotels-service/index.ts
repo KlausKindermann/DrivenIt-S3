@@ -29,11 +29,26 @@ async function getHotels(userId: number) {
 
 async function getHotelsWithRooms(userId: number, hotelId: number) {
     await listHotels(userId);
-    const hotels = await hotelsRepository.findRoomsByhotelId(hotelId);
-    if (!hotels || hotels.Rooms.length === 0) {
+    const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+    if (!enrollment) {
         throw notFoundError();
     }
-    return hotels;
+    const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
+    if (!ticket) {
+        throw notFoundError();
+    }
+    if (ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
+        throw cannotListHotelsError();
+    }
+    const hotel = await hotelsRepository.findRoomsByhotelId(hotelId);
+    if (!hotel || hotel.Rooms.length === 0) {
+        throw notFoundError();
+    }
+    return hotel;
 }
 
-export default { getHotels, getHotelsWithRooms, listHotels };
+export default { 
+    getHotels,
+    getHotelsWithRooms,
+    listHotels,
+ };
