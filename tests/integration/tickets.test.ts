@@ -14,7 +14,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await cleanDb();
-}); 
+});
 
 const server = supertest(app);
 

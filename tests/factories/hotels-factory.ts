@@ -1,4 +1,4 @@
-import { Hotel, Room, Ticket, TicketStatus, TicketType } from '@prisma/client';
+/*import { Hotel, Room, Ticket, TicketStatus, TicketType } from '@prisma/client';
 import faker from '@faker-js/faker';
 import { prisma } from '@/config';
 
@@ -76,4 +76,4 @@ export function getRoomsByHotelIdMock() {
     ],
   };
   return expect;
-}
+}*/
