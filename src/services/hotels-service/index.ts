@@ -21,19 +21,19 @@ async function listHotels(userId: number) {
 async function getHotels(userId: number) {
     await listHotels(userId);
     const hotels = await hotelsRepository.findHotels();
-    if (!hotels) {
+    if (!hotels || hotels.length === 0) {
         throw notFoundError();
     }
     return hotels;
 }
 
 async function getHotelsWithRooms(userId: number, hotelId: number) {
-        await listHotels(userId);
-    const hotel = await hotelsRepository.findRoomsByhotelId(hotelId);
-    if (!hotel) {
+    await listHotels(userId);
+    const hotels = await hotelsRepository.findRoomsByhotelId(hotelId);
+    if (!hotels || hotels.Rooms.length === 0) {
         throw notFoundError();
     }
-    return hotel;
+    return hotels;
 }
 
-export default { getHotels, getHotelsWithRooms, };
+export default { getHotels, getHotelsWithRooms, listHotels };
